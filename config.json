@@ -1,0 +1,27 @@
+{
+  "network" : {
+      "port" : "7443"
+  },
+  "security" : {
+      "auth_state" : "off",
+      "cipher_state" : "off"
+  },
+  "users" : {
+      "0" : {
+          "login" : "user1",
+          "password" : "password1"
+      },
+      "1" : {
+          "login" : "user2",
+          "password" : "password2"
+      }
+  },
+  "modems" : {
+      "0" : {
+          "name" : "megafon",
+          "driver" : "huawei_e173",
+          "port" : "/dev/ttyUSB2",
+          "pin" : "0000"
+      }
+  }
+}
