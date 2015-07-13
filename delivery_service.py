@@ -2,6 +2,7 @@
 
 import threading
 import sys
+import time
 
 import modem_driver
 
@@ -26,13 +27,17 @@ class DeliveryService(threading.Thread):
     def run(self):
         sys.stdout.write("Delivery is waiting for messages\n")
         while self._is_running_():
-            mes = self._shared_data_.pop_message()
-            if mes is not None:
-                dest = mes["destination"]
-                text = mes["text"]
-                sys.stdout.write("Got message for " + dest + "\n")
-                modem_num = self._select_modem_(dest)
-                self._modems_[modem_num].send_sms(dest, text)
+            while True:
+                mes = self._shared_data_.pop_message()
+                if mes is not None:
+                    dest = mes["destination"]
+                    text = mes["text"]
+                    sys.stdout.write("Got message for " + dest + "\n")
+                    modem_num = self._select_modem_(dest)
+                    self._modems_[modem_num].send_sms(dest, text)
+                else:
+                    break
+            time.sleep(1)
 
     def _wake_the_modems_(self):
         for i in range(self._config_.get_modems_count()):

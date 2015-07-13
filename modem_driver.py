@@ -58,7 +58,6 @@ class HuaweiE173(ModemDriver):
         try:
             self._dongle = serial.Serial(port_id, baudrate=9600, timeout=5)
             self._pin = pin_code
-            self.initialize_dongle(self._pin)
         except:
             raise sms_server_exceptions.SMSServerModemException("No device on " + port_id)
 
@@ -82,12 +81,16 @@ class HuaweiE173(ModemDriver):
         return mes_pdu.toPDU()
 
     def _send_sms_text_(self, phone_number, sms_text):
+        phone_number = str(phone_number)
+        sms_text = str(sms_text)
+        sys.stdout.write("\n---------EXECUTE SEND-----------\n")
         self._dongle.write("AT+CMGF=1\r")
-        self._dongle.read(16)
+        sys.stdout.write(self._dongle.read(16) + "\n")
         self._dongle.write("AT+CMGS=" + "\"" + phone_number + "\"" + "\r")
-        self._dongle.read(16)
+        sys.stdout.write(self._dongle.read(16) + "\n")
         self._dongle.write(sms_text + chr(26))
-        self._dongle.read(16)
+        sys.stdout.write(self._dongle.read(16) + "\n")
+        sys.stdout.write("------------DONE SEND-----------\n")
 
     def _send_sms_pdu_(self, phone_number, sms_text):
         self._dongle.write("AT+CMGF=0\r")
