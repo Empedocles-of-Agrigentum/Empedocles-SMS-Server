@@ -7,7 +7,6 @@ import time
 import modem_driver
 
 
-# TODO: СДЕЛАТЬ ВЫВОД ЛОГА
 class DeliveryService(threading.Thread):
     def __init__(self, shared_data):
         sys.stdout.write("Initializing delivery service..." + "\n")

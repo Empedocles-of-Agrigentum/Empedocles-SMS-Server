@@ -1,0 +1,5 @@
+1) Implement encryption for clients.
+2) Add correct handling for OS signals.
+3) Implement PDU messaging instead of plain text.
+4) Design API for remote control and monitoring.
+5) Create all-in-one install packages for populat OS's.
