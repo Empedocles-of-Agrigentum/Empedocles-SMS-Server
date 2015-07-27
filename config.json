@@ -20,7 +20,7 @@
       "0" : {
           "name" : "megafon",
           "driver" : "huawei_e173",
-          "port" : "/dev/ttyUSB1",
+          "port" : "/dev/ttyUSB2",
           "pin" : "0000"
       }
   }
