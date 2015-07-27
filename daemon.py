@@ -22,6 +22,7 @@ class SMSDaemon:
 
     def _daemonize(self):
         sys.stdout.write("Executing daemonize...\n")
+        # Делаем первый fork
         try:
             pid = os.fork()
             if pid > 0:
@@ -29,9 +30,11 @@ class SMSDaemon:
         except OSError, e:
             sys.stderr.write("fork #1 failed: %d (%s)\n" % (e.errno, e.strerror))
             sys.exit(1)
+        # Меняем параметры среды
         os.chdir("/")
         os.setsid()
         os.umask(0)
+        # Делаем второй fork
         try:
             pid = os.fork()
             if pid > 0:
@@ -39,6 +42,7 @@ class SMSDaemon:
         except OSError, e:
             sys.stderr.write("fork #2 failed: %d (%s)\n" % (e.errno, e.strerror))
             sys.exit(1)
+        # Перенаправляем файловые дескрипторы на файлы из конструктора
         sys.stdout.flush()
         sys.stderr.flush()
         si = file(self._stdin, 'r')
@@ -47,6 +51,7 @@ class SMSDaemon:
         os.dup2(si.fileno(), sys.stdin.fileno())
         os.dup2(so.fileno(), sys.stdout.fileno())
         os.dup2(se.fileno(), sys.stderr.fileno())
+        # Регистрируем вызов удаления pid-файла при завершении работы и создаем этот файл
         atexit.register(self._delpid)
         pid = str(os.getpid())
         file(self._pidfile, 'w+').write("%s\n" % pid)
@@ -86,7 +91,7 @@ class SMSDaemon:
             return
         try:
             while 1:
-                # TODO: Add correct signal handler
+                # TODO: Сделать корректную реакцию на сигнал SIGTERM
                 os.kill(pid, signal.SIGKILL)
                 time.sleep(0.1)
         except OSError, err:

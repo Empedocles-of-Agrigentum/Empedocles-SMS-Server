@@ -26,15 +26,15 @@ class ModemDriver:
         self._pin = None
 
     def send_sms(self, phone_number, sms_text, mode="text"):
-        """Send SMS"""
+        """Отправить SMS-сообщение"""
         pass
 
     def initialize_dongle(self, pin_code="0000"):
-        """Initialize dongle"""
+        """Инициализировать модем"""
         pass
 
     def _encode_to_pdu_(self, phone_number, sms_text):
-        """Convert message to PDU"""
+        """Преобразовать сообщение в формат PDU"""
         pass
 
 

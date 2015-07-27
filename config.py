@@ -39,7 +39,7 @@ class Config:
                 return False
         return True
 
-    # TODO: add in-depth correctness check for every user and modem
+    # TODO: дописать проверку корректности данных для каждого пользователя и модема
     def _advanced_check_(self):
         network_keys = ["port"]
         security_keys = ["auth_state", "cipher_state"]
